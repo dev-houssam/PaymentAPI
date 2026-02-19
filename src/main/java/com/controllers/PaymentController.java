@@ -17,7 +17,7 @@ public class PaymentController {
 		this.paymentService = paymentService;
 	}
 
-	/**
+	/** 
 	 * <p>Get all payments in the system</p>
 	 * @return List<PaymentDto>
 	 */
