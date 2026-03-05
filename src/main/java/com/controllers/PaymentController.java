@@ -1,53 +1,44 @@
 package com.controllers;
 
 import com.dtos.PaymentDto;
-import org.springframework.web.bind.annotation.*;
+import com.dtos.PaymentRequestDto;
+import com.dtos.PaymentResponseDto;
+import com.services.PaymentService;
 
-import com.services.impl.PaymentServiceImpl;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/payments")
+@RequiredArgsConstructor
 public class PaymentController {
 
-	private final PaymentServiceImpl paymentService;
+	private final PaymentService paymentService;
 
-	public PaymentController(PaymentServiceImpl paymentService) {
-		this.paymentService = paymentService;
+	/**
+	 * Créer un paiement
+	 */
+	@PostMapping
+	public PaymentResponseDto pay(@RequestBody PaymentRequestDto request){
+		return paymentService.pay(request);
 	}
 
-	/** 
-	 * <p>Get all payments in the system</p>
-	 * @return List<PaymentDto>
+	/**
+	 * Lister tous les paiements
 	 */
 	@GetMapping
-	public List<PaymentDto> getPayments() {
+	public List<PaymentDto> getAllPayments(){
 		return paymentService.getAllPayments();
 	}
 
 	/**
-	 * Method to get the payment based on the ID
+	 * Récupérer un paiement par ID
 	 */
 	@GetMapping("/{id}")
 	public PaymentDto getPayment(@PathVariable Long id){
-		return paymentService.getPaymentById(id);
+		return paymentService.getPayment(id);
 	}
-
-	/**
-	 * Create a new Payment in the system
-	 */
-	@PostMapping
-	public PaymentDto savePayment(final @RequestBody PaymentDto paymentDto){
-		return paymentService.savePayment(paymentDto);
-	}
-
-	/**
-	 * Delete a payment by it's id
-	 */
-	@DeleteMapping("/{id}")
-	public Boolean deletePayment(@PathVariable Long id){
-		return paymentService.deletePayment(id);
-	}
-
 }
